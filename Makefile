@@ -11,8 +11,28 @@ run: all
 	@./$(TARGET)
 
 #Etudiants : creez les cibles de votre makefile ICI, et completez
-audisen_sim.out: audisen_sim.c
-	gcc audisen_sim.c -o audisen_sim.out
+audisen_sim.o: audisen_sim.c
+	gcc -c audisen_sim.c
+
+amp.o: amp.c
+	gcc -c amp.c
+
+ams.o: ams.c
+	gcc -c ams.c
+
+#audisen_usb.o: audidsen_usb.c
+#	gcc -c audisen_usb.c
+
+frame.o: frame.c
+	gcc -c frame.c
+
+#usb.o: usb.c
+#	gcc -c usb.c
+
+
+
+audisen_sim.out: audisen_sim.o amp.o ams.o frame.o # audisen_usb.o usb.o
+	gcc -Wall audisen_sim.o amp.o ams.o frame.o -o audisen_sim.out # ne pas oublier les USB
 
 
 
