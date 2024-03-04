@@ -1,3 +1,0 @@
-/mnt/c/Users/lebou/CLionProjects/projet_musique_A3_isen/cmake-build-debugwsl/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/lebou/CLionProjects/projet_musique_A3_isen/cmake-build-debugwsl/CMakeFiles/edit_cache.dir
-/mnt/c/Users/lebou/CLionProjects/projet_musique_A3_isen/cmake-build-debugwsl/CMakeFiles/projet_musique_A3_isen.dir
