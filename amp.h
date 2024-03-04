@@ -12,6 +12,12 @@ FILE* initAMP(char* filename);
 
 void readAMP(FILE* pf, char * song_filename);
 
+void str_to_lower(char* ma_string);
+
+void delete_special_chars(char *titre);
+
 void closeAMP(FILE* pf);
+
+void refactor_multiple_underscores(char *str);
 
 #endif //AUDISEN2024_AMP_H
