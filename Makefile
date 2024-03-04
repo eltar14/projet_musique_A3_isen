@@ -1,5 +1,5 @@
 #MakeFile squelette à modifier par les étudiants
-# Nom Prenom Nom Prenom Groupe Ville
+# Antoine LE BOULCH / Julia AZEAU CIR3 Caen
 
 #TARGET = audisen_usb.exe # pour la partie USB
 TARGET = audisen_sim.out
@@ -12,24 +12,22 @@ run: all
 
 #Etudiants : creez les cibles de votre makefile ICI, et completez
 audisen_sim.o: audisen_sim.c
-	gcc -c audisen_sim.c
+	gcc -Wall -c audisen_sim.c
 
-amp.o: amp.c
-	gcc -c amp.c
+amp.o: amp.c amp.h
+	gcc -Wall -c amp.c -o amp.o
 
-ams.o: ams.c
-	gcc -c ams.c
+ams.o: ams.c ams.h
+	gcc -Wall -c ams.c -o ams.o
 
 #audisen_usb.o: audidsen_usb.c
 #	gcc -c audisen_usb.c
 
-frame.o: frame.c
-	gcc -c frame.c
+frame.o: frame.c frame.h
+	gcc -Wall -c frame.c -o frame.o
 
 #usb.o: usb.c
 #	gcc -c usb.c
-
-
 
 audisen_sim.out: audisen_sim.o amp.o ams.o frame.o # audisen_usb.o usb.o
 	gcc -Wall audisen_sim.o amp.o ams.o frame.o -o audisen_sim.out # ne pas oublier les USB

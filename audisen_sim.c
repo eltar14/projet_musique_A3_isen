@@ -1,5 +1,5 @@
 /**
- * @authors Nom Prenom Nom Prenom Groupe Ville
+ * @authors Antoine LE BOULCH / Julia AZEAU CIR3 Caen
  */
 
 #include <stdio.h>

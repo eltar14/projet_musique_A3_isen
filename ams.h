@@ -1,6 +1,6 @@
 /**
- * @authors Nom Prenom Nom Prenom Groupe Ville
- */
+* @authors Nom Prenom Nom Prenom Groupe Ville
+*/
 
 #ifndef AUDISEN2024_AMS_H
 #define AUDISEN2024_AMS_H
