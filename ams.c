@@ -19,25 +19,27 @@ s_song readAMS(char* fileName){
     fichier = fopen(fileName, "r"); // Ouverture du fichier
     if (fichier != NULL){
         printf("File %s opened successfully.\n", fileName);
-        char temp[40]="";
+        char temp[MAX_SIZE_TITLE]="";
 
 
         // lit la premiere ligne = titre et l'enregistre dans la struct
-        char str_buffer[42];
+        char str_buffer[MAX_SIZE_TITLE];
         if (fgets(str_buffer, sizeof(str_buffer), fichier) == NULL)
         {
             printf("Fail to read the input stream");
         }
         else
         {
-
+            str_buffer[strlen(str_buffer)-2]='\0';
+            printf("titre str buffer : %s.\n", str_buffer);
+            /*
             //find new line
-            char *ptr;
+            /*char *ptr;
             ptr = strchr(str_buffer, '\n');
             if (ptr){
                 *ptr  = '\0';   // on remplace le \n par une fin de str \0
                 //printf("on a NN\n");
-                //printf("TITRE : %s.\n", temp);
+                //printf("TITRE : %s.\n", str_buffer);
                 //printf("len TITRE : %d.\n", strlen(temp));
 
             }
@@ -48,9 +50,18 @@ s_song readAMS(char* fileName){
                 *ptr2  = '\0';   // on remplace le \r par une fin de str \0
                 strncpy(temp, str_buffer, strlen(str_buffer));
             }
+             */
         }
         //printf("Entered Data = %s\n",str_buffer);
+        //sprintf(temp, "%s\0", temp);
+        //temp[strlen(temp)-1]='\0';
+        printf("LE TIIITRE : %s pas mal non ?\n", temp);
+        printf("LEN : %d\n\n", strlen(temp));
         strcpy(mySong.title, temp);
+        printf("LE TIIITRE struct : %s pas mal non ?\n", mySong.title);
+        printf("LEN in struct : %d\n", strlen(mySong.title));
+
+        //mySong.title[strlen(mySong.title)-1]='\0';*/
 
 
         // lit la ligne suivante = tempo et l'enregistre dans la struct
@@ -122,10 +133,10 @@ s_song readAMS(char* fileName){
         }
 
 
-
+        fclose(fichier);
     }else{
         printf("Unable to open file %s .\n", fileName);
-        strcpy(mySong.title, " ");
+        strcpy(mySong.title, "");
         mySong.tpm = 0;
         mySong.nTicks = 0;
         s_tick t;
@@ -134,7 +145,7 @@ s_song readAMS(char* fileName){
         }
         mySong.tickTab[0] = t;
     }
-    fclose(fichier);
+
     return mySong;
 }
 

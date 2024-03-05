@@ -22,7 +22,7 @@ FILE* initAMP(char* filename){
         printf("File %s opened successfully.\n", filename);
     }else{
         printf("Unable to open file %s .\n", filename);
-        exit(1);
+        //exit(1);
     }
     return pf;
 }
@@ -38,9 +38,18 @@ FILE* initAMP(char* filename){
  */
 void readAMP(FILE* pf, char * song_filename){
     fgets(song_filename, 99, pf);
+    //song_filename[strlen(song_filename)-2]='\0';
+    for (int i = 0; i < strlen(song_filename); ++i) {
+        if(song_filename[i] == '\n' || song_filename[i] == '\r'){
+            song_filename[i] = '\0';
+        }
+    }
+
     str_to_lower(song_filename);
-    delete_special_chars(song_filename);
+    delete_special_chars_2(song_filename);
     refactor_multiple_underscores(song_filename);
+    //add .ams
+    sprintf(song_filename, "%s.ams", song_filename);
 
 }
 
@@ -79,8 +88,6 @@ void refactor_multiple_underscores(char *str){
     }
 }
 
-//TODO not alphanumeric
-
 
 void delete_special_chars(char *titre){
     //Enlever les caractère
@@ -88,6 +95,15 @@ void delete_special_chars(char *titre){
     for(int i = 0; i < strlen(titre)-1; ++i){
         if (titre[i] == ' ' || titre[i] == ';' || titre[i] == '!' || titre[i] == '+' || titre[i] == '.' || titre[i] == ',' || titre[i] == '\''){
             titre[i] = '_';
+        }
+    }
+}
+
+
+void delete_special_chars_2(char* s){
+    for(int i = 0; i < strlen(s); ++i){
+        if(!isalpha(s[i])){
+            s[i] = '_';
         }
     }
 }

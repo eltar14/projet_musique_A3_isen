@@ -15,6 +15,7 @@ void readAMP(FILE* pf, char * song_filename);
 void str_to_lower(char* ma_string);
 
 void delete_special_chars(char *titre);
+void delete_special_chars_2(char* title);
 
 void closeAMP(FILE* pf);
 

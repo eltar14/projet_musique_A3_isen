@@ -47,7 +47,7 @@ void createInitFrame(s_song mySong, char* frame){
     //printf("CheckSum : %d\n", sum);
 
     char buffer3[8];
-    sprintf(buffer3, "%02X\r\n\0", sum); // en hexa + ><CR><LF>\0
+    sprintf(buffer3, "%02x\r\n\0", sum); // en hexa + ><CR><LF>\0
     strncat(init_frame, buffer3, sizeof(init_frame) - strlen(init_frame) - 1);
     //printf("init_frame after adding checksum : %s\n", init_frame); // debug
 
@@ -55,11 +55,11 @@ void createInitFrame(s_song mySong, char* frame){
 }
 
 void createTickFrame(s_tick myTick, char* frame){
-    sprintf(frame, "#1,%d,%02d,%02d,%02d,%02d*", myTick.accent, myTick.note[0],myTick.note[1],myTick.note[2],myTick.note[3]);
+    sprintf(frame, "#0,%d,%02d,%02d,%02d,%02d*", myTick.accent, myTick.note[0],myTick.note[1],myTick.note[2],myTick.note[3]);
     //checksum:
     int sum = 0;
     for (int i = 1; i < strlen(frame)-1; ++i) {
         sum ^= frame[i];
     }
-    sprintf(frame, "%s%02X*\r\n\0", frame, sum);// 2e moitie
+    sprintf(frame, "%s%02x\r\n\0", frame, sum);// 2e moitie
 }
