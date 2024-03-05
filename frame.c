@@ -55,5 +55,11 @@ void createInitFrame(s_song mySong, char* frame){
 }
 
 void createTickFrame(s_tick myTick, char* frame){
-
+    sprintf(frame, "#1,%d,%02d,%02d,%02d,%02d*", myTick.accent, myTick.note[0],myTick.note[1],myTick.note[2],myTick.note[3]);
+    //checksum:
+    int sum = 0;
+    for (int i = 1; i < strlen(frame)-1; ++i) {
+        sum ^= frame[i];
+    }
+    sprintf(frame, "%s%02X*\r\n\0", frame, sum);// 2e moitie
 }
