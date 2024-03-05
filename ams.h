@@ -11,5 +11,9 @@ struct song initSong();
 struct song readAMS(char* fileName);
 void createAMS(char* txtFileName, char* amsFileName);
 
+FILE* initAMS(char* filename);
+void print_s_tick(s_tick tick);
+void print_s_song(s_song song);
+
 
 #endif //AUDISEN2024
