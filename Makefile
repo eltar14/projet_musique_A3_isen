@@ -29,8 +29,11 @@ frame.o: frame.c frame.h define.h
 #usb.o: usb.c
 #	gcc -c usb.c
 
-audisen_sim.out: audisen_sim.o amp.o ams.o frame.o # audisen_usb.o usb.o
-	gcc -Wall audisen_sim.o amp.o ams.o frame.o -o audisen_sim.out # ne pas oublier les USB
+autotests.o: autotests.c autotests.h define.h
+	gcc -Wall -c autotests.c -o autotests.o
+
+audisen_sim.out: audisen_sim.o amp.o ams.o frame.o autotests.o # audisen_usb.o usb.o
+	gcc -Wall audisen_sim.o amp.o ams.o frame.o autotests.o -o audisen_sim.out # ne pas oublier les USB
 
 
 

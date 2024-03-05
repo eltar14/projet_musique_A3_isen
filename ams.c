@@ -14,98 +14,127 @@
  * @return
  */
 s_song readAMS(char* fileName){
-    FILE* fichier = initAMS(fileName); // ouverture du fichier
     s_song mySong;
+    FILE * fichier = NULL;
+    fichier = fopen(fileName, "r"); // Ouverture du fichier
+    if (fichier != NULL){
+        printf("File %s opened successfully.\n", fileName);
+        char temp[40]="";
 
-    // lit la premiere ligne = titre et l'enregistre dans la struct
-    char str_buffer[40];
-    if (fgets(str_buffer, sizeof(str_buffer), fichier) == NULL)
-    {
-        printf("Fail to read the input stream");
-    }
-    else
-    {
-        //find new line
-        char *ptr = strchr(str_buffer, '\n');
-        if (ptr)
+
+        // lit la premiere ligne = titre et l'enregistre dans la struct
+        char str_buffer[42];
+        if (fgets(str_buffer, sizeof(str_buffer), fichier) == NULL)
         {
-            *ptr  = '\0';   // on remplace le \n par une fin de str \0
+            printf("Fail to read the input stream");
         }
-    }
-    //printf("Entered Data = %s\n",str_buffer);
-    strcpy(mySong.title, str_buffer);
-
-
-    // lit la ligne suivante = tempo et l'enregistre dans la struct
-    char str_buffer2[5];
-    if (fgets(str_buffer2, sizeof(str_buffer2), fichier) == NULL)
-    {
-        printf("Fail to read the input stream");
-    }
-    else
-    {
-        //find new line
-        char *ptr = strchr(str_buffer2, '\n'); // renvoie la premiere occurence
-        if (ptr) // si occurrence :
+        else
         {
-            *ptr  = '\0';   // on remplace le \n par une fin de str \0
+
+            //find new line
+            char *ptr;
+            ptr = strchr(str_buffer, '\n');
+            if (ptr){
+                *ptr  = '\0';   // on remplace le \n par une fin de str \0
+                //printf("on a NN\n");
+                //printf("TITRE : %s.\n", temp);
+                //printf("len TITRE : %d.\n", strlen(temp));
+
+            }
+            char *ptr2;
+            ptr2 = strchr(str_buffer, '\r');
+            if(ptr2){
+                //printf("on a ARRR\n");
+                *ptr2  = '\0';   // on remplace le \r par une fin de str \0
+                strncpy(temp, str_buffer, strlen(str_buffer));
+            }
         }
-    }
-    mySong.tpm = atoi(str_buffer2); // conversion en int puis enregistre
+        //printf("Entered Data = %s\n",str_buffer);
+        strcpy(mySong.title, temp);
 
-    printf("Titre : %s\n", mySong.title);
-    printf("Tempo : %d\n", mySong.tpm);
 
-    char l_temp[200]; // l max = 185 en pratique
-    for (int i = 0; i < 2; ++i) {
-        fgets(l_temp, 200, fichier);
-    }
-    char ligne[200];
-    char ligne_sans_entete[200] = "";
-    int compteur_ligne = 0;
-    int num_note;
-    int c;
-    const char s[4] = "|";
-    char* tok;
-    int accentuation;
+        // lit la ligne suivante = tempo et l'enregistre dans la struct
+        char str_buffer2[5];
+        if (fgets(str_buffer2, sizeof(str_buffer2), fichier) == NULL)
+        {
+            printf("Fail to read the input stream");
+        }
+        else
+        {
+            //find new line
+            char *ptr = strchr(str_buffer2, '\n'); // renvoie la premiere occurence
+            if (ptr) // si occurrence :
+            {
+                *ptr  = '\0';   // on remplace le \n par une fin de str \0
+            }
+        }
+        mySong.tpm = 2* atoi(str_buffer2); // conversion en int puis enregistre
 
-    while (fgets(ligne, 200, fichier)) // pour chaque tick
-    {
+        //printf("Titre : %s\n", mySong.title);
+        //printf("Tempo : %d\n", mySong.tpm);
+
+        char l_temp[200]; // l max = 185 en pratique
+        for (int i = 0; i < 2; ++i) {
+            fgets(l_temp, 200, fichier);
+        }
+        char ligne[200];
+        char ligne_sans_entete[200] = "";
+        int compteur_ligne = 0;
+        int num_note;
+        const char s[4] = "|";
+        char* tok;
+        int accentuation;
+
+        while (fgets(ligne, 200, fichier)) // pour chaque tick
+        {
+            s_tick t;
+            for (int i = 0; i < 4; ++i) {// de base toutes les notes sur muet
+                t.note[i] = 0;
+            }
+
+            compteur_ligne ++; // = compteur de tick
+            accentuation = 0;
+            for (int i = 2; i < strlen(ligne); ++i) { // on commence apres le numero de ligne
+                ligne_sans_entete[i-3] = ligne[i];
+            }
+            int place_note_dans_tick = 0;
+            tok = strtok(ligne_sans_entete, s);
+            num_note = 1;
+            //printf("Tick numero %d\n", compteur_ligne);
+
+            while (tok != 0) {
+                if(tok[0] != ' ' && tok[1] != '\n'){
+                    //printf("%c\n", tok[0]);
+                    if(tok[0] == '^'){
+                        accentuation = 1;
+                    }
+                    t.note[place_note_dans_tick] = num_note;
+                    place_note_dans_tick ++;
+                    //printf("note : %d %s\n", num_note, tok);
+                }
+
+                tok = strtok(0, s);
+                num_note ++;
+            }
+            t.accent = accentuation;
+            mySong.tickTab[compteur_ligne-1] = t;
+            mySong.nTicks = compteur_ligne;
+        }
+
+
+
+    }else{
+        printf("Unable to open file %s .\n", fileName);
+        strcpy(mySong.title, " ");
+        mySong.tpm = 0;
+        mySong.nTicks = 0;
         s_tick t;
         for (int i = 0; i < 4; ++i) {// de base toutes les notes sur muet
             t.note[i] = 0;
         }
-
-        compteur_ligne ++; // = compteur de tick
-        accentuation = 0;
-        for (int i = 2; i < strlen(ligne); ++i) { // on commence apres le numero de ligne
-            ligne_sans_entete[i-3] = ligne[i];
-        }
-        int place_note_dans_tick = 0;
-        tok = strtok(ligne_sans_entete, s);
-        num_note = 1;
-        printf("Tick numero %d\n", compteur_ligne);
-
-        while (tok != 0) {
-            if(tok[0] != ' ' && tok[1] != '\n'){
-                //printf("%c\n", tok[0]);
-                if(tok[0] == '^'){
-                    accentuation = 1;
-                }
-                t.note[place_note_dans_tick] = num_note; //TODO verifier si correct
-                place_note_dans_tick ++;
-                printf("note : %d %s\n", num_note, tok);
-            }
-
-            tok = strtok(0, s);
-            num_note ++;
-        }
-        t.accent = accentuation; // temporaire pour tester TODO
-        mySong.tickTab[compteur_ligne-1] = t; //TODO
-        mySong.nTicks = compteur_ligne;
-        printf("\n");
-
+        mySong.tickTab[0] = t;
     }
+    fclose(fichier);
     return mySong;
 }
 
@@ -129,7 +158,7 @@ FILE* initAMS(char* filename){
 
 
 void print_s_tick(s_tick tick){
-    printf("%d, %d, %d, %d acc:%d\n", tick.note[0], tick.note[1], tick.note[2], tick.note[3], tick.accent);
+    printf("%02d, %02d, %02d, %02d acc:%d\n", tick.note[0], tick.note[1], tick.note[2], tick.note[3], tick.accent);
 }
 
 
