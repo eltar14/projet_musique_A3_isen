@@ -9,7 +9,13 @@
 
 struct song initSong();
 struct song readAMS(char* fileName);
+
 void createAMS(char* txtFileName, char* amsFileName);
+FILE* initTXT(char* filename);
+FILE* initAMS_write(char* filename);
+void delete_space(char *str);
+int note_position(int numNote, char* str, int* nbr_ticks);
+void closeFile(FILE* pf);
 
 FILE* initAMS(char* filename);
 void print_s_tick(s_tick tick);
