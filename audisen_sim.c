@@ -11,7 +11,8 @@ int main(){
 
     testFrame(); // 100%
     testReadAMP(); // 100%
-    testReadAMS();
+    testReadAMS(); // 100%
+    testCreateAMS();
 
     return 0;
 }
