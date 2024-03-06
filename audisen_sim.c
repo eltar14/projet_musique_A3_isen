@@ -8,18 +8,10 @@
 #include "ams.h"
 #include "frame.h"
 
-void playlist_frm(char* src_filename, char* dest_filename);
 
 
 
 void playlist_frm(char* src_filename, char* dest_filename){
-    //TODO ===
-    /*
-     * recup titre par titre
-     * conversion vers *.ams
-     * creer trames --> fichier destination .frm (append)
-     *
-     */
     FILE* pf;
     pf = initAMP(src_filename); // src = amp  playlist file
     char song_filename[MAX_SIZE_TITLE];
