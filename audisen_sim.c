@@ -9,9 +9,9 @@
 int main(){
     printf("Demarrage du projet AUDISEN\n");
 
-    //testFrame(); // 100%
-    //testReadAMP(); // 100%
-    //testReadAMS();
+    testFrame(); // 100%
+    testReadAMP(); // 100%
+    testReadAMS();
 
     return 0;
 }

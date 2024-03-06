@@ -40,21 +40,22 @@ void testReadAMS(){
 	
 	// Test 1 : vérifier que la fonction renvoie une structure song vide quand le fichier ams n'existe pas
 	mySong = readAMS(".ams");
-	
+
 	if (mySong.tpm==0 && strcmp(mySong.title,"")==0){
 		for(i=0;i<MAX_NUMBER_TICKS;i++){
 			if(mySong.tickTab[i].accent==0){
+                //printf("===================== i: %d.\n", i);
 				for(k=0;k<4;k++){
 					if(mySong.tickTab[i].note[k]==0){
 						cpt++;
+                        //printf("cpt: %d\n", cpt);
 					}
 				}
 			}
-
 		}
 	}
 
-	
+
 	if(cpt==4*MAX_NUMBER_TICKS){
 		mark[0]=1;
 	}else{
@@ -71,10 +72,15 @@ void testReadAMS(){
 		title[strlen(title)-1]='\0';
 		fscanf(pf,"%d",&tpm);
 		//printf("%s %d",title,tpm);
+        //printf("1%s\n2%s\n", title, mySong.title);
+        //printf("mySong.title = %s\n", mySong.title);
 		if(strcmp(title,mySong.title)==0){
+
+            //printf("bohrap title OK, cpt=%d\n", cpt);
 			cpt++;
 		}
 		if(tpm==mySong.tpm){
+            //printf("bohrap tpm OK\n");
 			cpt++;
 		}
 		i=0;
@@ -93,6 +99,7 @@ void testReadAMS(){
 		}
 		fscanf(pf,"%d",&nTicks);
 		if(mySong.nTicks==nTicks){
+            //printf("bohrap real ticks OK\n");
 			cpt++;
 		}
 
@@ -100,6 +107,8 @@ void testReadAMS(){
 		fclose(pf);
 
 	}
+    //printf("bohrap nTicks %d\n", mySong.nTicks);
+    //printf("bohrap cpt (67): %d\n", cpt);
 	if(cpt==(3+mySong.nTicks*4)){
 		mark[1]=1;
 	}else{

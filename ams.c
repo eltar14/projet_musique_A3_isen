@@ -19,22 +19,24 @@ s_song readAMS(char* fileName){
     fichier = fopen(fileName, "r"); // Ouverture du fichier
     if (fichier != NULL){
         printf("File %s opened successfully.\n", fileName);
-        char temp[MAX_SIZE_TITLE]="";
+        //char temp[MAX_SIZE_TITLE]="";
 
 
         // lit la premiere ligne = titre et l'enregistre dans la struct
         char str_buffer[MAX_SIZE_TITLE];
-        if (fgets(str_buffer, sizeof(str_buffer), fichier) == NULL)
+        if (fgets(str_buffer, MAX_SIZE_TITLE, fichier) == NULL)
         {
             printf("Fail to read the input stream");
         }
         else
         {
-            str_buffer[strlen(str_buffer)-2]='\0';
-            printf("titre str buffer : %s.\n", str_buffer);
+            str_buffer[strlen(str_buffer)-1]='\0';
+            strcpy(mySong.title, str_buffer);
+            //printf("%s\n", str_buffer);
+            //printf("titre str buffer : %s.\n", str_buffer);
             /*
             //find new line
-            /*char *ptr;
+            char *ptr;
             ptr = strchr(str_buffer, '\n');
             if (ptr){
                 *ptr  = '\0';   // on remplace le \n par une fin de str \0
@@ -55,11 +57,14 @@ s_song readAMS(char* fileName){
         //printf("Entered Data = %s\n",str_buffer);
         //sprintf(temp, "%s\0", temp);
         //temp[strlen(temp)-1]='\0';
+
+        /*
         printf("LE TIIITRE : %s pas mal non ?\n", temp);
         printf("LEN : %d\n\n", strlen(temp));
         strcpy(mySong.title, temp);
         printf("LE TIIITRE struct : %s pas mal non ?\n", mySong.title);
         printf("LEN in struct : %d\n", strlen(mySong.title));
+         */
 
         //mySong.title[strlen(mySong.title)-1]='\0';*/
 
@@ -84,19 +89,19 @@ s_song readAMS(char* fileName){
         //printf("Titre : %s\n", mySong.title);
         //printf("Tempo : %d\n", mySong.tpm);
 
-        char l_temp[200]; // l max = 185 en pratique
+        char l_temp[MAX_SIZE_LINE]; // l max = 185 en pratique
         for (int i = 0; i < 2; ++i) {
-            fgets(l_temp, 200, fichier);
+            fgets(l_temp, MAX_SIZE_LINE, fichier);
         }
-        char ligne[200];
-        char ligne_sans_entete[200] = "";
+        char ligne[MAX_SIZE_LINE];
+        char ligne_sans_entete[MAX_SIZE_LINE] = "";
         int compteur_ligne = 0;
         int num_note;
         const char s[4] = "|";
         char* tok;
         int accentuation;
 
-        while (fgets(ligne, 200, fichier)) // pour chaque tick
+        while (fgets(ligne, MAX_SIZE_LINE, fichier)) // pour chaque tick
         {
             s_tick t;
             for (int i = 0; i < 4; ++i) {// de base toutes les notes sur muet
@@ -134,16 +139,23 @@ s_song readAMS(char* fileName){
 
 
         fclose(fichier);
-    }else{
+    }else{ // si le fichier ne s ouvre pas
         printf("Unable to open file %s .\n", fileName);
-        strcpy(mySong.title, "");
+        //strcpy(mySong.title, "");
+
         mySong.tpm = 0;
         mySong.nTicks = 0;
-        s_tick t;
-        for (int i = 0; i < 4; ++i) {// de base toutes les notes sur muet
-            t.note[i] = 0;
+        for (int i = 0; i < MAX_NUMBER_TICKS; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                mySong.tickTab[i].note[j] = 0;
+                //(mySong.tickTab[i].note[k]==0)
+            }
+            mySong.tickTab[i].accent = 0;
+            //print_s_tick(mySong.tickTab[i]);
+
+            //mySong.tickTab[i].accent==0)
         }
-        mySong.tickTab[0] = t;
+        //print_s_tick(mySong.tickTab[0]);
     }
 
     return mySong;
