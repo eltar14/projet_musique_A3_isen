@@ -351,9 +351,16 @@ int note_position(int numNote, char* str, int* nbr_ticks){
     int octave = str[1] - '0'; // on passe l'octave eb int
     position = (position + (12 * (octave-1))); // octave 1 : +12 * 0 , octave 2 : +12 * 1 ...
 
-    char *ptr2 = strchr(str, 'R'); // calcul le nombre de ticks et les gardes en mémoire
-    if (ptr2) {
-        nbr_ticks[position] = 8 - 1; // -1 la ticks qu'on est en train d'écrire
+    switch (str[strlen(str) - 1]) {
+        case 'R':
+            nbr_ticks[position] = 8 - 1; // -1 la ticks qu'on est en train d'écrire
+            break;
+        case 'N':
+            nbr_ticks[position] = 2 - 1; // -1 la ticks qu'on est en train d'écrire
+            break;
+        case 'B':
+            nbr_ticks[position] = 4 - 1; // -1 la ticks qu'on est en train d'écrire
+            break;
     }
 
     return position;
