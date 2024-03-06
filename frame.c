@@ -16,6 +16,19 @@
  * @param frame
  */
 void createInitFrame(s_song mySong, char* frame){
+    sprintf(frame, "#%s,%d,%d*", mySong.title, mySong.tpm, mySong.nTicks);
+    //checksum:
+    int sum = 0;
+    for (int i = 1; i < strlen(frame)-1; ++i) {
+        sum ^= frame[i];
+    }
+    sprintf(frame, "%s%02x\r\n\0", frame, sum);// 2e moitie
+
+    printf("%s\n", frame);
+
+
+
+    /*
     char init_frame[99] = ""; // Initialisation avec une chaîne vide
 
     strncat(init_frame, "#", sizeof(init_frame) - strlen(init_frame) - 1); // Utilisation de strncat avec une taille maximale
@@ -52,6 +65,9 @@ void createInitFrame(s_song mySong, char* frame){
     //printf("init_frame after adding checksum : %s\n", init_frame); // debug
 
     strcpy(frame, init_frame);
+     */
+
+
 }
 
 void createTickFrame(s_tick myTick, char* frame){

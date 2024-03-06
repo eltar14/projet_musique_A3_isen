@@ -21,4 +21,6 @@ void closeAMP(FILE* pf);
 
 void refactor_multiple_underscores(char *str);
 
+void getAMP(char* filename, char* dest_str);
+
 #endif //AUDISEN2024_AMP_H

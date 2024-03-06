@@ -37,7 +37,7 @@ FILE* initAMP(char* filename){
  * @param song_filename
  */
 void readAMP(FILE* pf, char * song_filename){
-    fgets(song_filename, 99, pf);
+    fgets(song_filename, MAX_SIZE_TITLE, pf);
     //song_filename[strlen(song_filename)-2]='\0';
     for (int i = 0; i < strlen(song_filename); ++i) {
         if(song_filename[i] == '\n' || song_filename[i] == '\r'){
@@ -120,5 +120,25 @@ void closeAMP(FILE* pf){
         fclose(pf); // On ferme le fichier qui a été ouvert
     }else{
 
+    }
+}
+
+
+void getAMP(char* filename, char* dest_str){
+    FILE* pf;
+    pf = initAMP(filename);
+
+    char song_filename[MAX_SIZE_TITLE];
+
+    readAMP(pf, song_filename);
+    //sprintf(dest_str, "%s", "testtt");
+    int i =0;
+    while (!feof(pf)){
+        if(i != 0){
+            sprintf(dest_str, "%s%c%c", dest_str, '\r', '\n');
+        }
+        sprintf(dest_str,"%s%s", dest_str, song_filename);
+        readAMP(pf, song_filename);
+        i++;
     }
 }
