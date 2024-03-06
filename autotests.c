@@ -306,6 +306,8 @@ void testCreateAMS(){
 				fgets(buffer,MAX_SIZE_LINE,pf1);
 				if(strcmp(buffer,buffer_ref)==0){
 					nCorrectLines+=1;
+				} else{
+					printf("ligne non identique \n bufferM : %s \n bufferR : %s \n",buffer, buffer_ref);
 				}
 			}
 		}
