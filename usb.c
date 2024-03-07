@@ -20,7 +20,7 @@ FT_HANDLE initUSB() {
         printf("open USB ok\n");
 
         // Set read timeout of 5sec, write timeout of 1sec
-        ftStatus = FT_SetTimeouts(ftHandle, 5000, 1000);
+        ftStatus = FT_SetTimeouts(ftHandle, 1000, 1000);
         if (ftStatus == FT_OK)
             printf("TO ok\n");
 
@@ -74,13 +74,11 @@ void writeUSB(char* frame, FT_HANDLE ftHandle){
     // FTWRITE ===========================================================
 
     ftStatus = FT_Write(ftHandle, frame, sizeof(frame), &BytesWritten);
-    /*if (ftStatus == FT_OK) {
-        // FT_Write OK
+    if (ftStatus == FT_OK) {
         printf("Write OK \n");
     }
     else {
-        // FT_Write Failed
         printf("Write Failed \n");
-    }*/
+    }
 
 }
