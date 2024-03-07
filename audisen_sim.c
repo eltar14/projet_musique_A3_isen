@@ -11,7 +11,7 @@
 
 
 
-void playlist_frm(char* src_filename, char* dest_filename){
+void playlist_to_frm(char* src_filename, char* dest_filename){
     FILE* pf;
     pf = initAMP(src_filename); // src = amp  playlist file
     char song_filename[MAX_SIZE_TITLE];
@@ -57,7 +57,11 @@ int main(){
     //getAMP("Playlist.amp", strr);
     //printf("%s\n", strr);
 
-    playlist_frm("Playlist.amp", "test1.frm");
+    //playlist_to_frm("Playlist.amp", "test1.frm");
+
+    createAMS("cantina.txt", "cantina.ams");
+    createAMS("kerosene.txt", "kerosene.ams");
+    playlist_to_frm("pl2.amp", "test2.frm");
 
 
     return 0;

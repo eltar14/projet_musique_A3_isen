@@ -11,7 +11,8 @@
 
 int main(){
     printf("Demarrage du projet AUDISEN USB\n");
-
+    //FT_HANDLE handle;
+    //handle = initUSB();
 
     return 0;
 }
