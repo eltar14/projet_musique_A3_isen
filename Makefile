@@ -1,8 +1,8 @@
 #MakeFile squelette à modifier par les étudiants
 # Antoine LE BOULCH / Julia AZEAU CIR3 Caen
 
-TARGET = audisen_usb.exe # pour la partie USB
-#TARGET = audisen_sim.out
+#TARGET = audisen_usb.exe # pour la partie USB
+TARGET = audisen_sim.out
 
 
 all: $(TARGET)

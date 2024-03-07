@@ -171,6 +171,23 @@ s_song readAMS(char* fileName){
 
 
 
+int afficher_note_x(int note_precedente, int position_note, int* nbr_ticks, int memoire_position_ligne, FILE* fichierAMS){
+    for (int i = 0; i < 60 ; i++){
+
+        if (nbr_ticks[i] != 0 && i < position_note && i > note_precedente){
+
+            while (memoire_position_ligne < i) { // tant qu'on ne trouve pas à la note demandée on affiche des cases vides
+                fputs("|  ", fichierAMS);
+                memoire_position_ligne++;
+            }
+            fputs("|x ", fichierAMS);
+            memoire_position_ligne++;
+            nbr_ticks[i]--; // on oublie pas d'enlever celui qu'on vient d'afficher
+        }
+    }
+    return memoire_position_ligne;
+}
+
 
 /**
  * Créer un fichier AMS d'après un fichier TXT
@@ -186,6 +203,12 @@ void createAMS(char* txtFileName, char* amsFileName){
         char str_buffer[100];
         if (fgets(str_buffer, sizeof(str_buffer), fichierTXT) == NULL) {
             printf("Fail to read the input stream");
+        } else {
+            //find new line
+            char *ptr = strchr(str_buffer, '\n');
+            if (ptr) {
+                *ptr = '\0';   // on remplace le \n par une fin de str \0
+            }
         }
         fputs(str_buffer, fichierAMS);
     }
@@ -203,6 +226,9 @@ void createAMS(char* txtFileName, char* amsFileName){
         fputc(' ', fichierAMS);
     }
 
+    //fputc('\n', fichierAMS);
+
+
     // écriture des notes
 
     char str_buffer2[500];
@@ -211,14 +237,12 @@ void createAMS(char* txtFileName, char* amsFileName){
     char *tok;
     int memoire_position_ligne = 1; // représente la case (la note) ou on se trouve
     int nbr_ticks[60] = {0}; // contient les ticks en fonction d'une note qu'on a du garder en mémoire
-    int note_precedente = 0; // position de la note précédente sur une même ligne
+    int note_precedente; // position de la note précédente sur une même ligne
 
     while (fgets(str_buffer2, sizeof(str_buffer2), fichierTXT) != NULL){ // Tant qu'on a pas lu toutes les lignes du fichier txt
         fputs("\r\n", fichierAMS);
-
         memoire_position_ligne = 1;
         note_precedente = 0; // on la réinitialise quand on change de ligne
-
         // affichage tick
         int centaine = num_ligne / 100;
         int dizaine = num_ligne / 10;
@@ -267,18 +291,8 @@ void createAMS(char* txtFileName, char* amsFileName){
             }
 
             //affiches les ticks garder en mémoire (exemple si une note est joué sur 8 ticks on la garde en mémoire pour la prochaine ligne et on l'affiche comme ci-dessous)
-            for (int i = 0; i < 60 ; i++){
-                if (nbr_ticks[i] != 0 && i < position_note && i > note_precedente){ // On s'assure qu'il n'y pas de note avant
-                    while (memoire_position_ligne < i) { // tant qu'on ne trouve pas à la note demandée on affiche des cases vides
-                        fputs("|  ", fichierAMS);
-                        memoire_position_ligne++;
-                        //exit(1);
-                    }
-                    fputs("|x ", fichierAMS);
-                    memoire_position_ligne++;
-                    nbr_ticks[i]--; // on oublie pas d'enlever celui qu'on vient d'afficher
-                }
-            }
+            memoire_position_ligne = afficher_note_x(note_precedente, position_note, nbr_ticks, memoire_position_ligne, fichierAMS);
+
 
             while (memoire_position_ligne != position_note && memoire_position_ligne <= 60 ) { // tant qu'on ne trouve pas à la note demandée on affiche des cases vides
                 fputs("|  ", fichierAMS);
@@ -294,21 +308,50 @@ void createAMS(char* txtFileName, char* amsFileName){
             // à la fin du while
             tok = strtok(0, delimitation);
         }
-        //printf("\n");
-        for (int i = memoire_position_ligne; i <= 60; ++i) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
+
+        memoire_position_ligne = afficher_note_x(note_precedente, 61, nbr_ticks, memoire_position_ligne, fichierAMS);
+
+        for (int i = memoire_position_ligne; i <= 61; ++i) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
             fputs("|  ", fichierAMS);
             memoire_position_ligne++;
         }
 
-        fputs("|", fichierAMS); // affichage pipe de fin et retour a la ligne
+        //fputs("|\n", fichierAMS); // affichage pipe de fin et retour a la ligne
         num_ligne++; // on passe à la ligne suivante
 
     }
 
+    // S'il n'y a plus de note mais si nbr_ticks n'est pas vide
+    for (int i = 0; i < 60 ; i++) {
+        while (nbr_ticks[i] != 0){
+            fputs("\r\n", fichierAMS);
+            memoire_position_ligne = 1;
+            note_precedente = 0; // on la réinitialise quand on change de ligne
+            // affichage tick
+            int centaine = num_ligne / 100;
+            int dizaine = num_ligne / 10;
+            int unit = num_ligne % 10;
+            fputc(centaine + '0', fichierAMS);
+            fputc(dizaine + '0', fichierAMS);
+            fputc(unit + '0', fichierAMS);
+
+            memoire_position_ligne = afficher_note_x(note_precedente, 61, nbr_ticks, memoire_position_ligne, fichierAMS);
+
+            for (int j = memoire_position_ligne; j <= 61; ++j) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
+                fputs("|  ", fichierAMS);
+                memoire_position_ligne++;
+            }
+
+        }
+    }
     closeFile(fichierTXT);
     closeFile(fichierAMS);
 
 }
+
+
+
+
 
 
 
