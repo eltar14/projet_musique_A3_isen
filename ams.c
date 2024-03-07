@@ -405,17 +405,20 @@ void delete_space(char *str){
  */
 int note_position(int numNote, char* str, int* nbr_ticks){
     int position = 0;
+    int endStr;
     char *ptr = strchr(str, '#'); // si oui alors on prend la position de la note au-dessus
     if (ptr) {
         position = numNote+1;
+        endStr = 3;
     } else {
         position = numNote; // sinon on garde sa position de base
+        endStr = 2;
     }
 
     int octave = str[1] - '0'; // on passe l'octave eb int
     position = (position + (12 * (octave-1))); // octave 1 : +12 * 0 , octave 2 : +12 * 1 ...
 
-    switch (str[strlen(str) - 1]) {
+    switch (str[endStr]) {
         case 'R':
             nbr_ticks[position] = 8 - 1; // -1 la ticks qu'on est en train d'écrire
             break;
