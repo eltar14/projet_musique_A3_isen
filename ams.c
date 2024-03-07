@@ -220,7 +220,7 @@ void createAMS(char* txtFileName, char* amsFileName){
         fputc(' ', fichierAMS);
     }
 
-    //fputc('\n', fichierAMS);
+    //fputc('\r', fichierAMS);
 
 
     // écriture des notes
@@ -305,12 +305,11 @@ void createAMS(char* txtFileName, char* amsFileName){
 
         memoire_position_ligne = afficher_note_x(note_precedente, 61, nbr_ticks, memoire_position_ligne, fichierAMS);
 
-        for (int i = memoire_position_ligne; i <= 61; ++i) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
+        for (int i = memoire_position_ligne; i <= 60; ++i) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
             fputs("|  ", fichierAMS);
             memoire_position_ligne++;
         }
-
-        //fputs("|\n", fichierAMS); // affichage pipe de fin et retour a la ligne
+        fputs("|", fichierAMS); // affichage pipe de fin et retour a la ligne
         num_ligne++; // on passe à la ligne suivante
 
     }
@@ -332,11 +331,11 @@ void createAMS(char* txtFileName, char* amsFileName){
 
             memoire_position_ligne = afficher_note_x(note_precedente, 61, nbr_ticks, memoire_position_ligne, fichierAMS);
 
-            for (int j = memoire_position_ligne; j <= 61; j++) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
+            for (int j = memoire_position_ligne; j <= 60; j++) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
                 fputs("|  ", fichierAMS);
                 memoire_position_ligne++;
             }
-
+            fputs("|", fichierAMS);
         }
     }
     closeFile(fichierTXT);
