@@ -1,3 +1,5 @@
+/*
+
 /**
  * @authors Antoine LE BOULCH / Julia AZEAU CIR3 Caen
  */
@@ -19,15 +21,11 @@ FT_HANDLE initUSB() {
     if (ftStatus == FT_OK) {
         printf("open USB ok\n");
 
-        // Set read timeout of 5sec, write timeout of 1sec
-        ftStatus = FT_SetTimeouts(ftHandle, 1000, 1000);
-        if (ftStatus == FT_OK)
-            printf("TO ok\n");
-
         // Set baud rate
         ftStatus = FT_SetBaudRate(ftHandle, 9600);
         if (ftStatus == FT_OK)
             printf("baud ok\n");
+
 
         ftStatus = FT_SetDataCharacteristics(ftHandle,
         FT_BITS_8,
@@ -36,12 +34,17 @@ FT_HANDLE initUSB() {
 
 
         if (ftStatus == FT_OK)
-            printf("DC ok\n");
+            printf("Data Carac ok\n");
 
         ftStatus = FT_SetFlowControl(ftHandle, FT_FLOW_NONE, 0, 0);
         if (ftStatus == FT_OK)
             printf("flow ok\n");
 
+
+        // Set read timeout of 5sec, write timeout of 1sec
+        ftStatus = FT_SetTimeouts(ftHandle, 5000, 1000);
+        if (ftStatus == FT_OK)
+            printf("TO ok\n");
 
     } else{
         fprintf(stderr, "open USB error\n");
@@ -73,7 +76,7 @@ void writeUSB(char* frame, FT_HANDLE ftHandle){
 
     // FTWRITE ===========================================================
 
-    ftStatus = FT_Write(ftHandle, frame, sizeof(frame), &BytesWritten);
+    ftStatus = FT_Write(ftHandle, frame, strlen(frame), &BytesWritten);
     if (ftStatus == FT_OK) {
         printf("Write OK \n");
     }
@@ -82,3 +85,4 @@ void writeUSB(char* frame, FT_HANDLE ftHandle){
     }
 
 }
+

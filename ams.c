@@ -218,6 +218,7 @@ void createAMS(char* txtFileName, char* amsFileName){
 
         memoire_position_ligne = 1;
         note_precedente = 0; // on la réinitialise quand on change de ligne
+
         // affichage tick
         int centaine = num_ligne / 100;
         int dizaine = num_ligne / 10;
@@ -267,7 +268,7 @@ void createAMS(char* txtFileName, char* amsFileName){
 
             //affiches les ticks garder en mémoire (exemple si une note est joué sur 8 ticks on la garde en mémoire pour la prochaine ligne et on l'affiche comme ci-dessous)
             for (int i = 0; i < 60 ; i++){
-                if (nbr_ticks[i] != 0 && i < position_note && i > note_precedente){
+                if (nbr_ticks[i] != 0 && i < position_note && i > note_precedente){ // On s'assure qu'il n'y pas de note avant
                     while (memoire_position_ligne < i) { // tant qu'on ne trouve pas à la note demandée on affiche des cases vides
                         fputs("|  ", fichierAMS);
                         memoire_position_ligne++;
@@ -385,6 +386,7 @@ int note_position(int numNote, char* str, int* nbr_ticks){
 
     return position;
 }
+
 
 /**
  * doit vérifier que le fichier pointé par pf existe bien et le fermer le cas échéant.
