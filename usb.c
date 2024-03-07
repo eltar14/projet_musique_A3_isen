@@ -17,19 +17,31 @@ FT_HANDLE initUSB(){
     // FT_Open ============================
     ftStatus = FT_Open(0, &ftHandle);
     if (ftStatus == FT_OK) {
-        fprintf(stderr, "open USB ok\n");
+        printf("open USB ok\n");
 
         // Set read timeout of 5sec, write timeout of 1sec
         ftStatus = FT_SetTimeouts(ftHandle, 5000, 1000);
+        if (ftStatus == FT_OK)
+                printf("TO ok\n");
+
         // Set baud rate
         ftStatus = FT_SetBaudRate(ftHandle, 9600);
+        if (ftStatus == FT_OK)
+            printf("baud ok\n");
 
         ftStatus = FT_SetDataCharacteristics(ftHandle,
         FT_BITS_8,
         FT_STOP_BITS_1,
         FT_PARITY_NONE);
 
-        ftStatus = FT_SetFlowControl(ftHandle, FT_FLOW_NONE, 0x0, 0x0);
+
+        if (ftStatus == FT_OK)
+            printf("DC ok\n");
+
+        ftStatus = FT_SetFlowControl(ftHandle, FT_FLOW_NONE, 0, 0);
+        if (ftStatus == FT_OK)
+                    printf("flow ok\n");
+
 
 
     }else{
@@ -89,24 +101,17 @@ void closeUSB(FT_HANDLE ftHandle){
 void writeUSB(char* frame, FT_HANDLE ftHandle){
     FT_STATUS ftStatus;
     DWORD BytesWritten;
-    //LONG lComPortNumber;
-
-    // GETCOMPORTNULBER =================================================
-
-    //ftStatus = FT_GetComPortNumber(ftHandle,&lComPortNumber);
-
-
 
     // FTWRITE ===========================================================
 
-    ftStatus = FT_Write(ftHandle, frame, sizeof(frame), &BytesWritten, NULL);
-    if (ftStatus == FT_OK) {
+    ftStatus = FT_Write(ftHandle, frame, sizeof(frame), &BytesWritten);
+    /*if (ftStatus == FT_OK) {
         // FT_Write OK
         printf("Write OK \n");
     }
     else {
         // FT_Write Failed
         printf("Write Failed \n");
-    }
+    }*/
 
 }

@@ -3,6 +3,7 @@
  */
 #define _WIN32
 #include <stdio.h>
+#include<unistd.h>
 #include "amp.h"
 #include "ams.h"
 #include "frame.h"
@@ -29,15 +30,18 @@ void playlist_to_card(char* src_filename, FT_HANDLE ftHandle){
             if (strlen(song_struct.title) > 0){
                 song_struct.title[strlen(song_struct.title)-1]='\0';
                 createInitFrame(song_struct, frame);
+                printf("frame : %s\n", frame);
                 // ENVOI TRAME INIT
                 writeUSB(frame, ftHandle);
             }
 
             for (int i = 0; i < song_struct.nTicks; ++i) {
                 createTickFrame(song_struct.tickTab[i], frame);
+                printf("tick frame : %s\n", frame);
                 // ENVOI TRAMES MUSIQUE
                 writeUSB(frame, ftHandle);
             }
+            sleep(1);
         }
         closeAMP(pf);
 
@@ -49,8 +53,8 @@ int main(){
     FT_HANDLE ftHandle;
     FT_STATUS ftStatus;
     ftHandle = initUSB();
-    //playlist_to_card("Playlist.amp", ftHandle);
-    //closeUSB(ftHandle);
+    playlist_to_card("ma_playlist.amp", ftHandle);
+    closeUSB(ftHandle);
 
 
 
