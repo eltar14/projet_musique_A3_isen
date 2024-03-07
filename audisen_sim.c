@@ -43,6 +43,8 @@ void playlist_to_frm(char* src_filename, char* dest_filename){
     closeAMP(pf);
 }
 
+
+
 int main(){
     printf("Demarrage du projet AUDISEN\n");
 
@@ -59,9 +61,11 @@ int main(){
 
     //playlist_to_frm("Playlist.amp", "test1.frm");
 
+    /*
     createAMS("cantina.txt", "cantina.ams");
     createAMS("kerosene.txt", "kerosene.ams");
     playlist_to_frm("pl2.amp", "test2.frm");
+    */
 
 
     return 0;

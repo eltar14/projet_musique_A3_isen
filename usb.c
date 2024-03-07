@@ -8,7 +8,7 @@
 #include "usb.h"
 
 
-FT_HANDLE initUSB(){
+FT_HANDLE initUSB() {
     FT_HANDLE ftHandle;
     FT_STATUS ftStatus;
     //LONG lComPortNumber;
@@ -22,7 +22,7 @@ FT_HANDLE initUSB(){
         // Set read timeout of 5sec, write timeout of 1sec
         ftStatus = FT_SetTimeouts(ftHandle, 5000, 1000);
         if (ftStatus == FT_OK)
-                printf("TO ok\n");
+            printf("TO ok\n");
 
         // Set baud rate
         ftStatus = FT_SetBaudRate(ftHandle, 9600);
@@ -40,64 +40,33 @@ FT_HANDLE initUSB(){
 
         ftStatus = FT_SetFlowControl(ftHandle, FT_FLOW_NONE, 0, 0);
         if (ftStatus == FT_OK)
-                    printf("flow ok\n");
+            printf("flow ok\n");
 
 
-
-    }else{
+    } else{
         fprintf(stderr, "open USB error\n");
     }
-
-
-
-/*
-// FT_GetComPortNumber ================
-        ftStatus = FT_GetComPortNumber(ftHandle,&lComPortNumber);
-        if (ftStatus == FT_OK) {
-            if (lComPortNumber == -1) {
-                // No COM port assigned
-                printf("No COM port assigned\n");
-            }
-            else {
-                // COM port assigned with number held in lComPortNumber
-                printf("COM port is %d\n", lComPortNumber);
-            }
-        }
-        else {
-            // FT_GetComPortNumber FAILED!
-            printf("FT_GetComPortNumber FAILED\n");
-        }
- */
-
-
-    // FT_GetDeviceInfo ===================
-    /*
-    ftStatus = FT_GetDeviceInfo(
-            ftHandle,
-            &ftDevice,
-            &deviceID,
-            SerialNumber,
-            Description,
-            NULL
-    );
-    if (ftStatus == FT_OK) {
-        // FT_GetDeviceInfo OK, use ftHandle to access device
-        printf("FT_GetDeviceInfo OK.\n");
-    }
-    else {
-        // FT_GetDeviceInfo failed
-    }
- */
-
-
     return ftHandle;
 
 }
+
+
+
+/**
+ * Permet de fermer ftHandle
+ * @param ftHandle
+ */
 void closeUSB(FT_HANDLE ftHandle){
     FT_Close(ftHandle);
 }
 
 
+
+/**
+ * Permet d'écrire dans la carte
+ * @param frame
+ * @param ftHandle
+ */
 void writeUSB(char* frame, FT_HANDLE ftHandle){
     FT_STATUS ftStatus;
     DWORD BytesWritten;

@@ -31,6 +31,7 @@ s_song readAMS(char* fileName){
         else
         {
             str_buffer[strlen(str_buffer)-1]='\0';
+
             strcpy(mySong.title, str_buffer);
             //printf("%s\n", str_buffer);
             //printf("titre str buffer : %s.\n", str_buffer);
@@ -86,6 +87,9 @@ s_song readAMS(char* fileName){
         }
         mySong.tpm = 2* atoi(str_buffer2); // conversion en int puis enregistre
 
+
+
+
         //printf("Titre : %s\n", mySong.title);
         //printf("Tempo : %d\n", mySong.tpm);
 
@@ -103,6 +107,7 @@ s_song readAMS(char* fileName){
 
         while (fgets(ligne, MAX_SIZE_LINE, fichier)) // pour chaque tick
         {
+            //printf("%d\n", compteur_ligne);
             s_tick t;
             for (int i = 0; i < 4; ++i) {// de base toutes les notes sur muet
                 t.note[i] = 0;
@@ -110,7 +115,10 @@ s_song readAMS(char* fileName){
 
             compteur_ligne ++; // = compteur de tick
             accentuation = 0;
-            for (int i = 2; i < strlen(ligne); ++i) { // on commence apres le numero de ligne
+            for (int i = 2; i < strlen(ligne); ++i) { // on commence apres le numero de ligne !!!!! DIFF WINDOWS LINUX
+                if(ligne[i] == '\r' || ligne[i] == '\n'){
+                    ligne[i] = '\0';
+                }
                 ligne_sans_entete[i-3] = ligne[i];
             }
             int place_note_dans_tick = 0;
