@@ -11,15 +11,15 @@
 FT_HANDLE initUSB(){
     FT_HANDLE ftHandle;
     FT_STATUS ftStatus;
-    LONG lComPortNumber;
+    //LONG lComPortNumber;
+
 
     // FT_Open ============================
     ftStatus = FT_Open(0, &ftHandle);
-    if(ftStatus != FT_OK) {
-        fprintf(stderr, "Failed to open USB device\n");
-        exit(1);
+    if (ftStatus == FT_OK) {
+        fprintf(stderr, "open USB ok\n");
     }else{
-        printf("USB Device open in InitUSB!\n");
+        fprintf(stderr, "open USB error\n");
     }
 
 
@@ -62,7 +62,7 @@ FT_HANDLE initUSB(){
     else {
         // FT_GetDeviceInfo failed
     }
-     */
+ */
 
 
     return ftHandle;

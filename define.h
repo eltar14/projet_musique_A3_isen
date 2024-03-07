@@ -5,7 +5,7 @@
 #ifndef INCLUDE_H
 #define INCLUDE_H
 
-//#define _WIN32
+#define _WIN32
 
 #ifndef _WIN32
 // LINUX INCLUDES
