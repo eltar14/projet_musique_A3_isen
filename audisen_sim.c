@@ -48,12 +48,12 @@ void playlist_to_frm(char* src_filename, char* dest_filename){
 int main(){
     printf("Demarrage du projet AUDISEN\n");
 
-    /*
+
     testFrame(); // 100%
     testReadAMP(); // 100%
     testReadAMS(); // 100%
     testCreateAMS(); // 100%
-    */
+
 
     //char strr[999] = "";
     //getAMP("Playlist.amp", strr);

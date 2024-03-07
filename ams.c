@@ -203,12 +203,6 @@ void createAMS(char* txtFileName, char* amsFileName){
         char str_buffer[100];
         if (fgets(str_buffer, sizeof(str_buffer), fichierTXT) == NULL) {
             printf("Fail to read the input stream");
-        } else {
-            //find new line
-            char *ptr = strchr(str_buffer, '\n');
-            if (ptr) {
-                *ptr = '\0';   // on remplace le \n par une fin de str \0
-            }
         }
         fputs(str_buffer, fichierAMS);
     }
@@ -334,10 +328,11 @@ void createAMS(char* txtFileName, char* amsFileName){
             fputc(centaine + '0', fichierAMS);
             fputc(dizaine + '0', fichierAMS);
             fputc(unit + '0', fichierAMS);
+            num_ligne++;
 
             memoire_position_ligne = afficher_note_x(note_precedente, 61, nbr_ticks, memoire_position_ligne, fichierAMS);
 
-            for (int j = memoire_position_ligne; j <= 61; ++j) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
+            for (int j = memoire_position_ligne; j <= 61; j++) { // si il reste des cases à remplir jusqu'a la fin (60) on les affiche
                 fputs("|  ", fichierAMS);
                 memoire_position_ligne++;
             }
